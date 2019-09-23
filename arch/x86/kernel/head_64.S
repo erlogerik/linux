@@ -47,6 +47,7 @@ L4_START_KERNEL = l4_index(__START_KERNEL_map)
 L3_START_KERNEL = pud_index(__START_KERNEL_map)
 
 	.text
+	.intel_syntax noprefix
 	__HEAD
 	.code64
 	.globl startup_64
@@ -72,6 +73,7 @@ startup_64:
 
 	/* Set up the stack for verify_cpu(), similar to initial_stack below */
 	leaq	(__end_init_task - SIZEOF_PTREGS)(%rip), %rsp
+	lea		rsp, [rip + (__end_init_task - SIZEOF_PTREGS)]
 
 	/* Sanitize CPU configuration */
 	call verify_cpu
